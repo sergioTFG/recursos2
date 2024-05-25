@@ -1,64 +1,65 @@
-variable StorageAccountName {
-    type = string
-    default = "storage01" 
-    description= "Nombre para la cuenta de almacenamiento"  
+variable "ResourceGroupName" {
+  description = "Nombre del grupo de recursos"
+  type        = string
+  default     = "myResourceGroup"
 }
 
-variable ResourceGroupName {
-    type = string 
-    default = "my-terraform-rg" 
-    description= "Nombre del grupo de recursos"  
+variable "ResourceGroupLocation" {
+  description = "Ubicación del grupo de recursos"
+  type        = string
+  default     = "East US"
 }
 
-variable ResourceGroupLocation {
-    type = string 
-    default = "West Europe" 
-    description= "Región donde reside el grupo de recursos"  
+variable "AzurermVirtualNetworkName" {
+  description = "Nombre de la red virtual"
+  type        = string
+  default     = "myVnet"
 }
 
-variable AzurermVirtualNetworkName {
-    type = string
-    default = "my-terraform-vnet"
-    description= "Nombre para la red virtual de Azure"  
+variable "puerto_expuesto" {
+  description = "Puerto expuesto por la aplicación web"
+  type        = string
+  default     = "8080"
 }
 
-# Configuración VM
-
-variable usuario {
-    type = string 
-    default = "alfonso"
-    sensitive = true 
+variable "ip_privada" {
+  description = "Dirección IP privada"
+  type        = string
+  default     = "10.0.2.4"
 }
 
-variable contrasena {
-    type = string 
-    default = "Usuario1!"
-    sensitive = true
+variable "size" {
+  description = "Tamaño de la máquina virtual"
+  type        = string
+  default     = "Standard_B1s"
 }
 
-variable hostname {
-    type = string 
-    default = "myvm" 
+variable "hostname" {
+  description = "Nombre del equipo"
+  type        = string
+  default     = "my-vm"
 }
 
-variable ip_privada {
-  type = string
-  default = "10.0.2.5"
+variable "usuario" {
+  description = "Nombre del usuario administrador"
+  type        = string
+  default     = "azureuser"
 }
 
-variable size {
-    type = string
-    default = "Standard_DS1_v2"
+variable "contrasena" {
+  description = "Contraseña del usuario administrador"
+  type        = string
+  default     = ""
 }
 
-# Variables httpd
-
-variable puerto_expuesto {
-  type = string
-  default = "8080"
+variable "salida_echo" {
+  description = "Mensaje de salida para el script de inicialización"
+  type        = string
+  default     = "Aplicación web en ejecución"
 }
 
-variable salida_echo {
-  type = string
-  default = "Hola mundo"
+variable "app_repo_url" {
+  description = "URL del repositorio del código de la aplicación"
+  type        = string
+  default     = "https://github.com/sergioTFG/Gestor"
 }
