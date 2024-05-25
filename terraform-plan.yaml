@@ -1,0 +1,47 @@
+name: "Terraform Plan"
+
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: TerraformInstaller@0
+  displayName: "Install Terraform"
+  inputs:
+    terraformVersion: '1.4.6'
+    terraformDownloadLocation: 'https://releases.hashicorp.com/terraform'
+
+
+- task: TerraformTaskV4@4
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/Templates'
+    backendServiceArm: 'Suscripción de Azure 1(23cb500a-b7c2-41ee-821a-d3f3a40d97bd)'
+    backendAzureRmResourceGroupName: 'dev1'
+    backendAzureRmStorageAccountName: 'storageiesgn'
+    backendAzureRmContainerName: 'contenedoriesgn1'
+    backendAzureRmKey: 'terraform.tfstate'
+  displayName: 'Terraform Init'
+
+- task: TerraformTaskV4@4
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/Templates'
+    commandOptions: '-out=terraform.tfplan'
+    environmentServiceNameAzureRM: 'Suscripción de Azure 1(23cb500a-b7c2-41ee-821a-d3f3a40d97bd)'
+  displayName: 'Terraform Plan'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.SourcesDirectory)/Templates/terraform.tfplan'
+    artifactName: 'terraformPlan'
+    publishLocation: 'Container'
+  displayName: 'Publish Terraform plan'
+
+- template: terraform-apply.yaml
